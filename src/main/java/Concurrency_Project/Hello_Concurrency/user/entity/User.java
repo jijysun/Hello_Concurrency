@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 
 @Entity
@@ -13,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE user SET inactive = false WHERE user_id=?")
+@Where(clause = "inactive = false")
 public class User extends BaseEntity {
 
     @Id
@@ -32,9 +36,13 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
-    private Integer postCount = 0;
+    private Integer postCount;
 
-    private Boolean inactive = false;
+    private Boolean inactive;
+
+    public void updateUsername(String username) {
+        this.username = username;
+    }
 
 
 
