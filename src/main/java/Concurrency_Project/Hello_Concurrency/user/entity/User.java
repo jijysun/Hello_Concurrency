@@ -15,7 +15,8 @@ import org.hibernate.annotations.Where;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE user SET inactive = false WHERE user_id=?")
+@Table(name = "user")
+@SQLDelete(sql = "UPDATE user SET inactive = true WHERE id=?")
 @Where(clause = "inactive = false")
 public class User extends BaseEntity {
 

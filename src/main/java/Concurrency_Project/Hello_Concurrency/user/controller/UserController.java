@@ -32,7 +32,7 @@ public class UserController {
         boolean save = userService.signIn(signInRequestDto);
 
         if (save) {
-            return ResponseEntity.ok(new SignInRequestDto());
+            return ResponseEntity.ok(signInRequestDto);
         }
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(signInRequestDto);
@@ -50,7 +50,6 @@ public class UserController {
         userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
-
 
 
 

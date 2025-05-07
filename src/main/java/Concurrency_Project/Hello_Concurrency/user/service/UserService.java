@@ -38,7 +38,7 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void updateUser(Long userId, UpdateRequestDto updateRequestDto) {
         User user = getUserByUserId(userId);
         if (user != null) {
@@ -46,7 +46,7 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteUser(Long userId) {
         User user = getUserByUserId(userId);
         if (user != null) {
