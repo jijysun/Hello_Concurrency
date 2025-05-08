@@ -1,18 +1,14 @@
 package Concurrency_Project.Hello_Concurrency.user.controller;
 
-import Concurrency_Project.Hello_Concurrency.user.Repository.UserRepository;
 import Concurrency_Project.Hello_Concurrency.user.dto.req.SignInRequestDto;
 import Concurrency_Project.Hello_Concurrency.user.dto.req.UpdateRequestDto;
-import Concurrency_Project.Hello_Concurrency.user.entity.SocialLogin;
 import Concurrency_Project.Hello_Concurrency.user.entity.User;
 import Concurrency_Project.Hello_Concurrency.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.CompositeType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -50,8 +46,6 @@ public class UserController {
         userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
-
-
 
 
 }
