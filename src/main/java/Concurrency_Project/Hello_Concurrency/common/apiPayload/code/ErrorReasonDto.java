@@ -1,4 +1,4 @@
-package Concurrency_Project.Hello_Concurrency.common.entity.error;
+package Concurrency_Project.Hello_Concurrency.common.apiPayload.code;
 
 import lombok.Builder;
 import lombok.Getter;
