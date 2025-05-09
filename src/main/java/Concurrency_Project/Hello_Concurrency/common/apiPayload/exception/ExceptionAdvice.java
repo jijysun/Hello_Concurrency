@@ -1,6 +1,5 @@
 package Concurrency_Project.Hello_Concurrency.common.apiPayload.exception;
 
-
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.ApiResponse;
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.ErrorReasonDto;
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.status.ErrorStatus;
@@ -24,12 +23,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
-@RestControllerAdvice (annotations = RestController.class)
+@RestControllerAdvice(annotations = RestController.class)
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler
-    public ResponseEntity<Object> validation (ConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<Object> validation(ConstraintViolationException ex, WebRequest request) {
         String errorMessage = ex.getConstraintViolations().stream()
                 .map(constraintViolation -> constraintViolation.getMessage())
                 .findFirst()
@@ -40,35 +38,35 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().stream()
                 .forEach(fieldError -> {
                     String field = fieldError.getField();
                     String errorMessage = Optional.ofNullable(fieldError.getDefaultMessage()).orElse("");
-                    errors.merge(field, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage+", "+newErrorMessage);
+                    errors.merge(field, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
                 });
 
-        return handleExceptionInternalArgs(ex, HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"), request, errors);
+        return handleExceptionInternalArgs(ex, HttpHeaders.EMPTY, ErrorStatus.valueOf("_BAD_REQUEST"), request, errors);
     }
 
     @ExceptionHandler
-    public ResponseEntity<Object> exception (Exception ex, WebRequest request) {
+    public ResponseEntity<Object> exception(Exception ex, WebRequest request) {
         ex.printStackTrace();
-        return handleExceptionInternalFalse(ex, ErrorStatus._INTERNAL_SERVER_ERROR,HttpHeaders.EMPTY ,ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),request, ex.getMessage() );
+        return handleExceptionInternalFalse(ex, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(), request, ex.getMessage());
     }
 
     @ExceptionHandler(value = GeneralException.class)
-    public ResponseEntity<Object> onThrowExcpetion (GeneralException generalEx, HttpServletRequest request){
+    public ResponseEntity<Object> onThrowExcpetion(GeneralException generalEx, HttpServletRequest request) {
         ErrorReasonDto reasonHttpStatus = generalEx.getReasonHttpStatus();
 
-        return handleExceptionInternal(generalEx, reasonHttpStatus, null, request);
+        log.error("Exception occurred! : {}", reasonHttpStatus.getMessage());
 
+        return handleExceptionInternal(generalEx, reasonHttpStatus, null, request);
     }
 
-    private ResponseEntity<Object> handleExceptionInternal (Exception ex, ErrorReasonDto reason, HttpHeaders headers, HttpServletRequest request) {
-        ApiResponse <Object> body = ApiResponse.onFailure(reason.getCode(), reason.getMessage(), null);
+    private ResponseEntity<Object> handleExceptionInternal(Exception ex, ErrorReasonDto reason, HttpHeaders headers, HttpServletRequest request) {
+        ApiResponse<Object> body = ApiResponse.onFailure(reason.getCode(), reason.getMessage(), null);
         WebRequest webRequest = new ServletWebRequest(request);
         return super.handleExceptionInternal(ex, body, headers, reason.getHttpStatus(), webRequest);
     }
@@ -79,14 +77,13 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleExceptionInternalArgs(Exception ex, HttpHeaders headers, ErrorStatus errorCommonStatus, WebRequest request, Map<String, String> errorArgs) {
-        ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(),errorCommonStatus.getMessage(),errorArgs);
+        ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(), errorCommonStatus.getMessage(), errorArgs);
         return super.handleExceptionInternal(ex, body, headers, errorCommonStatus.getHttpStatus(), request);
     }
 
     private ResponseEntity<Object> handleExceptionInternalFalse(Exception ex, ErrorStatus errorCommonStatus, HttpHeaders headers, HttpStatus status, WebRequest request, String errorPoint) {
-        ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(),errorCommonStatus.getMessage(),errorPoint);
+        ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(), errorCommonStatus.getMessage(), errorPoint);
         return super.handleExceptionInternal(ex, body, headers, status, request
         );
     }
-
 }

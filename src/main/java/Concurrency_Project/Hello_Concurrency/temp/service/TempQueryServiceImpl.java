@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TempQueryServiceImpl implements TempQueryService {
 
-
     @Override
     public void CheckFlag(Integer flag) {
-        if (flag == 1) {
+        if (flag == 2) {
             throw new TempHandler(ErrorStatus.TEMP_EXCEPTION);
         }
     }

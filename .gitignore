@@ -29,7 +29,7 @@
 
 
 # DataBase
-/src/main/resources/application.yml
+#/src/main/resources/application.yml
 
 # Gradle
 .idea/**/gradle.xml

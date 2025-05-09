@@ -15,7 +15,8 @@ public enum SuccessStatus implements BaseCode {
     _SIGN_IN_SUCCESS(HttpStatus.CREATED, "COMMON203", "회원가입에 성공했습니다."),
     _IN_PROCESSING(HttpStatus.ACCEPTED, "COMMON204", "이미 정상정으로 받은 요청입니다."),
 
-    
+    // Test 처리 성공 응답
+    _TEST_EXCEPTION_SUCCESS(HttpStatus.PARTIAL_CONTENT, "TEST200", " 테스트에 성공했습니다.");
 
 
     private final HttpStatus status;

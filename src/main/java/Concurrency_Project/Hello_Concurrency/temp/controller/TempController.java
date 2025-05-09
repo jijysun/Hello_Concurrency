@@ -38,6 +38,6 @@ public class TempController {
     @GetMapping("/ex")
     public ApiResponse<TempRespDto.TempExceptionDto> exceptionTest(@RequestParam Integer flag) {
         tempQueryService.CheckFlag(flag);
-        return  ApiResponse.onSuccess(TempConverter.toTempExceptionDto(flag), SuccessStatus.);
+        return  ApiResponse.onSuccess(TempConverter.toTempExceptionDto(flag), SuccessStatus._TEST_EXCEPTION_SUCCESS);
     }
 }
