@@ -21,4 +21,10 @@ public class TempConverter {
                 .testString("success to login")
                 .build();
     }
+
+    public static TempRespDto.TempExceptionDto toTempExceptionDto(Integer flag) {
+        return TempRespDto.TempExceptionDto.builder()
+                .flag(flag)
+                .build();
+    }
 }

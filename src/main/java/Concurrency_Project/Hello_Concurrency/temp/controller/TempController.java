@@ -4,16 +4,16 @@ import Concurrency_Project.Hello_Concurrency.common.apiPayload.ApiResponse;
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.status.SuccessStatus;
 import Concurrency_Project.Hello_Concurrency.temp.converter.TempConverter;
 import Concurrency_Project.Hello_Concurrency.temp.dto.TempRespDto;
+import Concurrency_Project.Hello_Concurrency.temp.service.TempQueryServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/temp")
 public class TempController {
+
+    private final TempQueryServiceImpl tempQueryService;
 
     /*@GetMapping("/test")
     public ApiResponse<TempRespDto.TempTestDto> test() {
@@ -33,5 +33,11 @@ public class TempController {
     @PostMapping("/login")
     public ApiResponse<TempRespDto.TempTestDto> login() {
         return ApiResponse.onSuccess(TempConverter.toLoginTempRespDto(), SuccessStatus._LOGIN_SUCCESS);
+    }
+
+    @GetMapping("/ex")
+    public ApiResponse<TempRespDto.TempExceptionDto> exceptionTest(@RequestParam Integer flag) {
+        tempQueryService.CheckFlag(flag);
+        return  ApiResponse.onSuccess(TempConverter.toTempExceptionDto(flag), SuccessStatus.);
     }
 }

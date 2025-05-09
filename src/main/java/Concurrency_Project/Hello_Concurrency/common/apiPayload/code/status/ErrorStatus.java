@@ -16,6 +16,8 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 존재하지 않습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
 
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
+
     // 추가 예시
     POST_ALREADY_UPDATED (HttpStatus.CONFLICT, "POST4001", "이미 수정된 글입니다."),
     INVALID_FILE_TYPE (HttpStatus.UNSUPPORTED_MEDIA_TYPE, "POST4002", "지원하지 않는 파일 형식입니다");
