@@ -23,14 +23,9 @@ public class ApiResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    /*public static <T> ApiResponse<T> onSuccess(T result) {
-        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);
-    }*/
-
     public static <T> ApiResponse<T> onSuccess(T result, SuccessStatus status) {
         return new ApiResponse<>(true, status.getCode(), status.getMessage(), result);
     }
-
 
     public static <T> ApiResponse<T> of(BaseCode code, T result) {
         return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getMessage(), result);

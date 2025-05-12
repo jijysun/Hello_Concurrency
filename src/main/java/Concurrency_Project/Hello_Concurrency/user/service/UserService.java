@@ -1,23 +1,24 @@
 package Concurrency_Project.Hello_Concurrency.user.service;
 
 import Concurrency_Project.Hello_Concurrency.user.Repository.UserRepository;
-import Concurrency_Project.Hello_Concurrency.user.dto.req.SignInRequestDto;
-import Concurrency_Project.Hello_Concurrency.user.dto.req.UpdateRequestDto;
+import Concurrency_Project.Hello_Concurrency.user.dto.UserRequestDto;
 import Concurrency_Project.Hello_Concurrency.user.entity.SocialLogin;
 import Concurrency_Project.Hello_Concurrency.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.Update;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService {
+public class  UserService {
 
     private final UserRepository userRepository;
 
-    public boolean signIn(SignInRequestDto signInRequestDto) {
+    public boolean signIn(UserRequestDto.SignInRequestDto signInRequestDto) {
 
         User user = User.builder()
                 .email(signInRequestDto.getEmail())
@@ -33,13 +34,29 @@ public class UserService {
         return true;
     }
 
+    public boolean validateSignIn(UserRequestDto.SignInValidateDto signInValidateDto) {
+
+        // 이메일, 닉네임 중복 검사
+        Optional<User> userByEmail = userRepository.findUserByEmail(signInValidateDto.getEmail());
+        Optional<User> userByUsername = userRepository.findUserByUsername(signInValidateDto.getUsername());
+
+        if (userByEmail.isPresent()) {
+            return false;
+        }
+        if (userByUsername.isPresent()) {
+            return false;
+        }
+        return true;
+
+    }
+
 
     public User getUserByUserId(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
 
     @Transactional
-    public void updateUser(Long userId, UpdateRequestDto updateRequestDto) {
+    public void updateUser(Long userId, UserRequestDto.UpdateRequestDto updateRequestDto) {
         User user = getUserByUserId(userId);
         if (user != null) {
             user.updateUsername(updateRequestDto.getUsername());

@@ -13,7 +13,8 @@ public enum SuccessStatus implements BaseCode {
     _LOGIN_SUCCESS(HttpStatus.OK, "COMMON201", "로그인에 성공했습니다."),
     _LOGOUT_SUCCESS(HttpStatus.OK, "COMMON202", "로그아웃에 성공했습니다."),
     _SIGN_IN_SUCCESS(HttpStatus.CREATED, "COMMON203", "회원가입에 성공했습니다."),
-    _IN_PROCESSING(HttpStatus.ACCEPTED, "COMMON204", "이미 정상정으로 받은 요청입니다."),
+    _VALIDATE_SUCCESS (HttpStatus.CONTINUE, "COMMON204", "이메일, 닉네임 검증에 성공했습니다"),
+    _IN_PROCESSING(HttpStatus.ACCEPTED, "COMMON205", "이미 정상정으로 받은 요청입니다."),
 
     // Test 처리 성공 응답
     _TEST_EXCEPTION_SUCCESS(HttpStatus.PARTIAL_CONTENT, "TEST200", " 테스트에 성공했습니다.");

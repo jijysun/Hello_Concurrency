@@ -5,6 +5,7 @@ import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.BaseErrorCod
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.ErrorReasonDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -15,6 +16,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 존재하지 않습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
+    NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4003", "이미 사용된 닉네임입니다."),
+    EMAIL_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4004", "이미 사용된 이메일입니다."),
+
 
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "테스트 예외가 발생했습니다."),
 
