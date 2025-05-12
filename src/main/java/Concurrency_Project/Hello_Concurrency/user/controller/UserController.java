@@ -1,12 +1,14 @@
 package Concurrency_Project.Hello_Concurrency.user.controller;
 
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.ApiResponse;
+import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.status.SuccessStatus;
+import Concurrency_Project.Hello_Concurrency.user.converter.UserConverter;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserRequestDto;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserResponseDto;
 import Concurrency_Project.Hello_Concurrency.user.entity.User;
 import Concurrency_Project.Hello_Concurrency.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     
     // Response API 통일하기
@@ -27,23 +30,17 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<UserRequestDto.SignInRequestDto> createUser(@RequestBody UserRequestDto.SignInRequestDto signInRequestDto) {
-        boolean save = userService.signIn(signInRequestDto);
-
-        if (save) {
-            return ResponseEntity.ok(signInRequestDto);
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(signInRequestDto);
-        }
+    public ApiResponse<UserResponseDto.SignInDto> createUser(@RequestBody UserRequestDto.SignInRequestDto signInRequestDto) {
+        log.info("Creating user: {}", signInRequestDto);
+        userService.signIn(signInRequestDto);
+        return ApiResponse.onSuccess(UserConverter.toUserSignInDto(signInRequestDto.getEmail(), signInRequestDto.getUsername()), SuccessStatus._SIGN_IN_SUCCESS);
     }
 
     @PostMapping("/validate")
-    public ApiResponse<UserResponseDto> validateSignIn (@RequestBody UserRequestDto.SignInValidateDto signInValidateDto) {
-
-        return ApiResponse.onSuccess(, Su)
-
-
+    public ApiResponse<UserResponseDto.SignInValidateDto> validateSignIn (@RequestBody UserRequestDto.SignInValidateDto signInValidateDto) {
+        log.info("Validating user: {}", signInValidateDto);
+        userService.validateSignIn(signInValidateDto);
+        return ApiResponse.onSuccess(UserConverter.toUserSignInValidateDto(), SuccessStatus._VALIDATE_SUCCESS); // 여기서 valid는 도대체 어디서 추가로 붙는걸까
     }
 
 

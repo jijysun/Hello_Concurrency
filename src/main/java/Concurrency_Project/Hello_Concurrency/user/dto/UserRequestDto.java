@@ -12,7 +12,6 @@ public class UserRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdateRequestDto {
-
         private String username;
         private String password;
 
@@ -30,7 +29,6 @@ public class UserRequestDto {
     @Getter
     @NoArgsConstructor
     public static class SignInRequestDto {
-
         private String email;
         private String password;
         private String username;

@@ -1,5 +1,7 @@
 package Concurrency_Project.Hello_Concurrency.user.service;
 
+import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.status.ErrorStatus;
+import Concurrency_Project.Hello_Concurrency.common.apiPayload.exception.handler.UserHandler;
 import Concurrency_Project.Hello_Concurrency.user.Repository.UserRepository;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserRequestDto;
 import Concurrency_Project.Hello_Concurrency.user.entity.SocialLogin;
@@ -18,7 +20,7 @@ public class  UserService {
 
     private final UserRepository userRepository;
 
-    public boolean signIn(UserRequestDto.SignInRequestDto signInRequestDto) {
+    public void signIn(UserRequestDto.SignInRequestDto signInRequestDto) {
 
         User user = User.builder()
                 .email(signInRequestDto.getEmail())
@@ -30,23 +32,22 @@ public class  UserService {
                 .build();
 
         userRepository.save(user);
-
-        return true;
+        
+        // if 중복으로 인한 오류 발생 시 Unique Exception 처리
     }
 
-    public boolean validateSignIn(UserRequestDto.SignInValidateDto signInValidateDto) {
+    public void validateSignIn(UserRequestDto.SignInValidateDto signInValidateDto) {
 
         // 이메일, 닉네임 중복 검사
         Optional<User> userByEmail = userRepository.findUserByEmail(signInValidateDto.getEmail());
         Optional<User> userByUsername = userRepository.findUserByUsername(signInValidateDto.getUsername());
 
         if (userByEmail.isPresent()) {
-            return false;
+            throw new UserHandler(ErrorStatus.EMAIL_ALREADY_EXIST); // 이메일 중복 Exception
         }
         if (userByUsername.isPresent()) {
-            return false;
+            throw new UserHandler(ErrorStatus.NICKNAME_ALREADY_EXIST); // 닉네임 중복 Exception
         }
-        return true;
 
     }
 

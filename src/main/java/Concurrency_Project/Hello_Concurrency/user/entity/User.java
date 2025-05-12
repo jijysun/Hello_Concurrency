@@ -24,7 +24,6 @@ public class User extends BaseEntity {
     @GeneratedValue (strategy = GenerationType.IDENTITY) // 따로 할당하지 않아도, DB가 알아서 AUTO_INCREMENT
     private Long id;
 
-
     @Column(nullable = false, unique = true, length = 40)
     private String email;
 
