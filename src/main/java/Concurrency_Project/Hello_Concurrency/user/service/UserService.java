@@ -4,6 +4,7 @@ import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.status.Error
 import Concurrency_Project.Hello_Concurrency.common.apiPayload.exception.handler.UserHandler;
 import Concurrency_Project.Hello_Concurrency.user.Repository.UserRepository;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserRequestDto;
+import Concurrency_Project.Hello_Concurrency.user.dto.UserResponseDto;
 import Concurrency_Project.Hello_Concurrency.user.entity.SocialLogin;
 import Concurrency_Project.Hello_Concurrency.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -48,17 +49,26 @@ public class  UserService {
         if (userByUsername.isPresent()) {
             throw new UserHandler(ErrorStatus.NICKNAME_ALREADY_EXIST); // 닉네임 중복 Exception
         }
-
     }
 
+    public UserResponseDto.UserInfoDto getUserByUserId(Long userId) {
+        Optional<User> byId = userRepository.findById(userId);
+        if (byId.isPresent()) {
+            return UserResponseDto.UserInfoDto.builder()
+                    .email(byId.get().getEmail())
+                    .username(byId.get().getUsername())
+                    .postCount(byId.get().getPostCount())
+                    .socialLogin(byId.get().getSocialLogin())
+                    .build();
+        }
 
-    public User getUserByUserId(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+        throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
     }
 
     @Transactional
     public void updateUser(Long userId, UserRequestDto.UpdateRequestDto updateRequestDto) {
-        User user = getUserByUserId(userId);
+
+        User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             user.updateUsername(updateRequestDto.getUsername());
         }
@@ -66,7 +76,7 @@ public class  UserService {
 
     @Transactional
     public void deleteUser(Long userId) {
-        User user = getUserByUserId(userId);
+        User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             userRepository.delete(user);
         }

@@ -24,9 +24,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable Long userId) {
-        User userByUserId = userService.getUserByUserId(userId);
-        return ResponseEntity.ok(userByUserId);
+    public ApiResponse<UserResponseDto.UserInfoDto> getUser(@PathVariable Long userId) {
+        return ApiResponse.onSuccess(UserConverter.toUserInfoDto(userService.getUserByUserId(userId)), SuccessStatus._OK);
     }
 
     @PostMapping("")
@@ -43,7 +42,6 @@ public class UserController {
         return ApiResponse.onSuccess(UserConverter.toUserSignInValidateDto(), SuccessStatus._VALIDATE_SUCCESS); // 여기서 valid는 도대체 어디서 추가로 붙는걸까
     }
 
-
     @PatchMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserRequestDto.UpdateRequestDto updateRequestDto) {
         userService.updateUser(userId, updateRequestDto);
@@ -55,6 +53,5 @@ public class UserController {
         userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
-
 
 }

@@ -16,4 +16,13 @@ public class UserConverter {
                 .email(email)
                 .build();
     }
+
+    public static UserResponseDto.UserInfoDto toUserInfoDto (UserResponseDto.UserInfoDto userDto) {
+        return UserResponseDto.UserInfoDto.builder()
+                .username(userDto.getUsername())
+                .email(userDto.getEmail())
+                .postCount(userDto.getPostCount())
+                .socialLogin(userDto.getSocialLogin())
+                .build();
+    }
 }
