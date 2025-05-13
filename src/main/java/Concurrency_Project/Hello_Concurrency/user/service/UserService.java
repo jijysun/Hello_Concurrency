@@ -68,9 +68,13 @@ public class  UserService {
     @Transactional
     public void updateUser(Long userId, UserRequestDto.UpdateRequestDto updateRequestDto) {
 
+        // 생성자를 통핸 업데이트 실시, @Builder
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
-            user.updateUsername(updateRequestDto.getUsername());
+            user.updateUser(updateRequestDto.getUsername(), updateRequestDto.getPassword());
+        }
+        else {
+            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
     }
 

@@ -5,7 +5,6 @@ import Concurrency_Project.Hello_Concurrency.common.apiPayload.code.status.Succe
 import Concurrency_Project.Hello_Concurrency.user.converter.UserConverter;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserRequestDto;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserResponseDto;
-import Concurrency_Project.Hello_Concurrency.user.entity.User;
 import Concurrency_Project.Hello_Concurrency.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +42,9 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserRequestDto.UpdateRequestDto updateRequestDto) {
+    public ApiResponse<UserResponseDto.UpdateDto> updateUser(@PathVariable Long userId, @RequestBody UserRequestDto.UpdateRequestDto updateRequestDto) {
         userService.updateUser(userId, updateRequestDto);
-        return ResponseEntity.ok().build();
+        return ApiResponse.onSuccess(UserConverter.toUpdateDto(updateRequestDto), SuccessStatus._OK);
     }
 
     @DeleteMapping("/{userId}")

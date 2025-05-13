@@ -29,6 +29,16 @@ public class UserResponseDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class UpdateDto {
+        private String username;
+        private String password;
+    }
+
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class UserInfoDto {
         private String email;
         private String username;

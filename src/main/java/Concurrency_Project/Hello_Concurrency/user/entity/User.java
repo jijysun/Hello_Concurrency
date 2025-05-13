@@ -40,8 +40,9 @@ public class User extends BaseEntity {
 
     private Boolean inactive;
 
-    public void updateUsername(String username) {
+    public void updateUser(String username, String password) {
         this.username = username;
+        this.password = password;
     }
 
 }

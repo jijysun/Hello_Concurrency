@@ -1,5 +1,6 @@
 package Concurrency_Project.Hello_Concurrency.user.converter;
 
+import Concurrency_Project.Hello_Concurrency.user.dto.UserRequestDto;
 import Concurrency_Project.Hello_Concurrency.user.dto.UserResponseDto;
 
 public class UserConverter {
@@ -23,6 +24,13 @@ public class UserConverter {
                 .email(userDto.getEmail())
                 .postCount(userDto.getPostCount())
                 .socialLogin(userDto.getSocialLogin())
+                .build();
+    }
+
+    public static UserResponseDto.UpdateDto toUpdateDto (UserRequestDto.UpdateRequestDto userDto) {
+        return UserResponseDto.UpdateDto.builder()
+                .username(userDto.getUsername())
+                .password(userDto.getPassword())
                 .build();
     }
 }
