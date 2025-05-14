@@ -9,6 +9,7 @@ import Concurrency_Project.Hello_Concurrency.user.entity.SocialLogin;
 import Concurrency_Project.Hello_Concurrency.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,13 @@ public class  UserService {
                 .inactive(false)
                 .build();
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new UserHandler(ErrorStatus.WRONG_INPUT);
+        }
+
         
         // if 중복으로 인한 오류 발생 시 Unique Exception 처리
     }

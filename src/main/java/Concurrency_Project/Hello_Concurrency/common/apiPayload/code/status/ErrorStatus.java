@@ -18,6 +18,7 @@ public enum ErrorStatus implements BaseErrorCode {
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
     NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4003", "이미 사용된 닉네임입니다."),
     EMAIL_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4004", "이미 사용된 이메일입니다."),
+    WRONG_INPUT(HttpStatus.BAD_REQUEST, "COMMON4005", "모든 값을 입력해야 합니다."),
 
 
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "테스트 예외가 발생했습니다."),

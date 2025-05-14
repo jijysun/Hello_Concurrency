@@ -1,6 +1,7 @@
 package Concurrency_Project.Hello_Concurrency.user.entity;
 
 import Concurrency_Project.Hello_Concurrency.common.entity.BaseEntity;
+import Concurrency_Project.Hello_Concurrency.mapping.entity.UserPost;
 import Concurrency_Project.Hello_Concurrency.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ public class User extends BaseEntity {
     private Boolean inactive;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Post> posts;
+    private List<UserPost> userPosts;
 
     public void updateUser(String username, String password) {
         this.username = username;
