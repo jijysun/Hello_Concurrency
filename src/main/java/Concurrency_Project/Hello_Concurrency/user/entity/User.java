@@ -1,6 +1,7 @@
 package Concurrency_Project.Hello_Concurrency.user.entity;
 
 import Concurrency_Project.Hello_Concurrency.common.entity.BaseEntity;
+import Concurrency_Project.Hello_Concurrency.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.List;
 
 
 @Entity
@@ -39,6 +42,9 @@ public class User extends BaseEntity {
     private Integer postCount;
 
     private Boolean inactive;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Post> posts;
 
     public void updateUser(String username, String password) {
         this.username = username;

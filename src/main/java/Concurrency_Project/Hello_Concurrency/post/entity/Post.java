@@ -1,11 +1,14 @@
 package Concurrency_Project.Hello_Concurrency.post.entity;
 
 import Concurrency_Project.Hello_Concurrency.common.entity.BaseEntity;
+import Concurrency_Project.Hello_Concurrency.mapping.entity.UserPost;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +25,7 @@ public class Post extends BaseEntity {
 
     @Column(nullable = false)
     private String body;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<UserPost> userPosts;
 }
